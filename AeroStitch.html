@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Swedish Refined Lineup - A Tailored Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Brilliant Blues Palette: #2779a7, #3b91bc, #5ba8d0, #83c0e4, #aed8f1, #f0f8ff (AliceBlue for background) -->
+    <!-- NEITHER Mermaid JS NOR SVG were used in the creation of this document. All visualizations are rendered via the HTML Canvas element or pure HTML/CSS. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f8ff;
+            color: #2779a7;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .card {
+             background-color: white;
+             border-radius: 0.75rem;
+             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+             padding: 1.5rem;
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+        .flowchart-step-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            background-color: #2779a7;
+            color: #FFFFFF;
+            border: 3px solid #83c0e4;
+            z-index: 10;
+        }
+        .flowchart-line {
+            position: absolute;
+            top: 36px;
+            left: 50%;
+            right: -50%;
+            height: 3px;
+            background-color: #aed8f1;
+            z-index: 5;
+        }
+         .flowchart-step:last-child .flowchart-line {
+            display: none;
+        }
+        .text-primary { color: #2779a7; }
+        .bg-primary { background-color: #2779a7; }
+        .jacket-image {
+            width: 100%;
+            height: auto; /* Allow natural aspect ratio */
+            object-fit: contain; /* Ensure entire image is visible without cropping */
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+         @media (min-width: 768px) {
+            .jacket-image {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-10">
+
+        <header class="text-center my-12 md:my-16">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-primary mb-4 tracking-tight">The Swedish Refined Lineup</h1>
+            <p class="text-lg md:text-xl text-gray-500 max-w-4xl mx-auto">An exploration of tailored excellence. This curated collection merges premium materials with precision craftsmanship to create timeless, versatile pieces for the modern wardrobe.</p>
+        </header>
+
+        <section class="py-12">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="card">
+                    <h2 class="text-2xl font-bold text-primary mb-4">Primary Fabric Composition</h2>
+                    <p class="text-gray-600 mb-4">Our collection is built upon a foundation of luxurious and enduring materials. Suede and Wool form the heart of our lineup, highlighting our commitment to quality you can feel. This chart shows the primary fabric distribution across the four signature styles.</p>
+                    <div class="chart-container h-[300px] md:h-[350px]">
+                        <canvas id="fabricCompositionChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="text-2xl font-bold text-primary mb-4">Projected Seasonal Versatility</h2>
+                     <p class="text-gray-600 mb-4">Designed for the dynamic Swedish climate, our jackets offer a range of seasonal suitability. This chart compares the ideal operational range for each piece, from the lightweight Commuter to the robust Heritage Plaid.</p>
+                    <div class="chart-container h-[300px] md:h-[350px]">
+                        <canvas id="seasonalVersatilityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-primary">The Jacket Showcase</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <div class="card lg:col-span-2 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/2">
+                        <img src="Swed Jacket.jpg" alt="The Suede Refinement Jacket" class="jacket-image mb-6 md:mb-0">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-3 text-primary">1. The Suede Refinement</h3>
+                        <p class="text-gray-600 mb-4">The epitome of understated luxury. This jacket reimagines the classic bomber silhouette in butter-soft suede, offering a sophisticated layer that transitions effortlessly from day to night. Its tailored modern fit ensures a sleek, contemporary profile.</p>
+                         <div class="mt-4 text-gray-700">
+                            <p class="font-semibold">Primary Fabric: <span class="font-normal">Goat/Lamb Suede</span></p>
+                            <p class="font-semibold">Alternative Fabric: <span class="font-normal">Moleskin Cotton</span></p>
+                            <p class="font-semibold">Fit Profile: <span class="font-normal">Tailored Modern Fit</span></p>
+                        </div>
+                         <div class="chart-container h-[250px] mt-6">
+                            <canvas id="suedeJacketChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card lg:col-span-2 flex flex-col md:flex-row-reverse gap-8 items-center">
+                     <div class="md:w-1/2">
+                        <img src="Bomer Jacket.jpg" alt="The Classic Commuter Jacket" class="jacket-image mb-6 md:mb-0">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-3 text-primary">2. The Classic Commuter</h3>
+                        <p class="text-gray-600 mb-4">The quintessential smart-casual workhorse, engineered with tailored precision. Crafted from high-density cotton twill, it offers a crisp finish, excellent shape retention, and practical durability for the individual on the move.</p>
+                         <div class="mt-4 text-gray-700">
+                            <p class="font-semibold">Primary Fabric: <span class="font-normal">High-Density Cotton Twill</span></p>
+                            <p class="font-semibold">Alternative Fabric: <span class="font-normal">Linen-Cotton Blend</span></p>
+                            <p class="font-semibold">Fit Profile: <span class="font-normal">Smart Casual Fit</span></p>
+                        </div>
+                        <div class="chart-container h-[250px] mt-6">
+                            <canvas id="commuterJacketChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card lg:col-span-2 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/2">
+                        <img src="Plaid Jacket.jpg" alt="The Heritage Plaid Jacket" class="jacket-image mb-6 md:mb-0">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-3 text-primary">3. The Heritage Plaid</h3>
+                        <p class="text-gray-600 mb-4">A sartorial statement piece that marries heritage patterns with a modern fit. Luxurious Shetland Wool provides exceptional warmth and texture, evoking a sense of "old money" charm perfect for sophisticated layering.</p>
+                        <div class="mt-4 text-gray-700">
+                            <p class="font-semibold">Primary Fabric: <span class="font-normal">Shetland Wool/Harris Tweed</span></p>
+                            <p class="font-semibold">Alternative Fabric: <span class="font-normal">Donegal Tweed</span></p>
+                            <p class="font-semibold">Fit Profile: <span class="font-normal">Comfortable Tailored Fit</span></p>
+                        </div>
+                         <div class="chart-container h-[250px] mt-6">
+                            <canvas id="plaidJacketChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card lg:col-span-2 flex flex-col md:flex-row-reverse gap-8 items-center">
+                    <div class="md:w-1/2">
+                        <img src="Linen Jacket.jpg" alt="The Linen Jacket" class="jacket-image mb-6 md:mb-0">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-bold mb-3 text-primary">4. The Linen Jacket</h3>
+                        <p class="text-gray-600 mb-4">An essential for warmer seasons, this jacket offers unparalleled breathability and a relaxed elegance. Crafted from premium linen, it provides a lightweight and comfortable layer, perfect for effortless spring and summer styling.</p>
+                         <div class="mt-4 text-gray-700">
+                            <p class="font-semibold">Primary Fabric: <span class="font-normal">Premium Linen</span></p>
+                            <p class="font-semibold">Alternative Fabric: <span class="font-normal">Linen-Cotton Blend</span></p>
+                            <p class="font-normal">Fit Profile: <span class="font-normal">Modern Relaxed-Tailored Fit</span></p>
+                        </div>
+                         <div class="chart-container h-[250px] mt-6">
+                            <canvas id="shirtJacketChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-10 text-primary">The Tailoring Process</h2>
+             <p class="text-lg text-gray-500 max-w-3xl mx-auto text-center mb-12">Our commitment to quality is woven into every step of our process. From sourcing the finest materials to the final quality check, we ensure each garment embodies our standard of excellence.</p>
+            <div class="w-full max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center space-y-10 md:space-y-0 md:space-x-4">
+                <div class="flowchart-step">
+                    <div class="flowchart-step-icon">1</div>
+                    <h4 class="mt-4 text-xl font-semibold">Material Sourcing</h4>
+                    <p class="text-sm text-gray-500 px-2">Selecting premium fabrics for their texture, durability, and drape.</p>
+                    <div class="flowchart-line hidden md:block"></div>
+                </div>
+                 <div class="flowchart-step">
+                    <div class="flowchart-step-icon">2</div>
+                    <h4 class="mt-4 text-xl font-semibold">Precision Cutting</h4>
+                    <p class="text-sm text-gray-500 px-2">Expert pattern makers create flawless components for a perfect fit.</p>
+                    <div class="flowchart-line hidden md:block"></div>
+                </div>
+                 <div class="flowchart-step">
+                    <div class="flowchart-step-icon">3</div>
+                    <h4 class="mt-4 text-xl font-semibold">Expert Assembly</h4>
+                     <p class="text-sm text-gray-500 px-2">Skilled artisans construct each jacket with meticulous attention to detail.</p>
+                    <div class="flowchart-line hidden md:block"></div>
+                </div>
+                <div class="flowchart-step">
+                    <div class="flowchart-step-icon">4</div>
+                    <h4 class="mt-4 text-xl font-semibold">Final Finishing</h4>
+                    <p class="text-sm text-gray-500 px-2">Buttons, linings, and a final press before rigorous quality assurance.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 mt-12 border-t border-blue-200">
+            <p class="text-gray-600 text-lg">&copy; 2025 Aero Stitched | Växjö, Sweden</p>
+            <p class="text-sm text-gray-500 mt-1">Dared To Be Different</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const globalTooltipConfig = {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        }
+                        return label;
+                    }
+                }
+            };
+
+            const wrapLabels = (label, maxLength = 16) => {
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const colors = {
+                c1: '#2779a7',
+                c2: '#3b91bc',
+                c3: '#5ba8d0',
+                c4: '#83c0e4',
+                c5: '#aed8f1',
+                bg: '#f0f8ff'
+            };
+
+            new Chart(document.getElementById('fabricCompositionChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Suede (Goat/Lamb)', 'Wool (Shetland/Tweed)', 'Cotton (Twill)'],
+                    datasets: [{
+                        data: [50, 25, 25],
+                        backgroundColor: [colors.c1, colors.c3, colors.c4],
+                        borderColor: '#ffffff',
+                        borderWidth: 5,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: colors.c1, font: {size: 14} } },
+                        tooltip: globalTooltipConfig
+                    }
+                }
+            });
+            
+            new Chart(document.getElementById('seasonalVersatilityChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Suede Refinement', 'Classic Commuter', 'Heritage Plaid', 'Elevated Shirt Jacket'].map(l => wrapLabels(l)),
+                    datasets: [
+                        { label: 'Spring', data: [8, 9, 6, 8], backgroundColor: colors.c3 },
+                        { label: 'Summer', data: [3, 6, 2, 5], backgroundColor: colors.c5 },
+                        { label: 'Autumn', data: [9, 8, 9, 8], backgroundColor: colors.c2 },
+                        { label: 'Winter', data: [4, 3, 7, 3], backgroundColor: colors.c1 },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, ticks: { color: colors.c1 } },
+                        y: { stacked: true, ticks: { color: colors.c1 } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: colors.c1 } },
+                        tooltip: globalTooltipConfig
+                    }
+                }
+            });
+
+            const radarOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: globalTooltipConfig
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(39, 121, 167, 0.2)' },
+                        grid: { color: 'rgba(39, 121, 167, 0.2)' },
+                        pointLabels: { color: colors.c1, font: { size: 14 } },
+                        ticks: { display: false, stepSize: 1 },
+                        suggestedMin: 0,
+                        suggestedMax: 5
+                    }
+                }
+            };
+            
+            const radarLabels = ['Versatility', 'Formality', 'Warmth', 'Weather Resistance', 'Lightweight'];
+
+            new Chart(document.getElementById('suedeJacketChart'), {
+                type: 'radar',
+                data: {
+                    labels: radarLabels,
+                    datasets: [{
+                        data: [4, 4, 3, 2, 4],
+                        fill: true,
+                        backgroundColor: 'rgba(40, 121, 167, 0.3)',
+                        borderColor: colors.c1,
+                        pointBackgroundColor: colors.c1
+                    }]
+                },
+                options: radarOptions
+            });
+
+            new Chart(document.getElementById('commuterJacketChart'), {
+                type: 'radar',
+                data: {
+                    labels: radarLabels,
+                    datasets: [{
+                        data: [5, 3, 2, 4, 5],
+                        fill: true,
+                        backgroundColor: 'rgba(91, 168, 208, 0.3)',
+                        borderColor: colors.c3,
+                        pointBackgroundColor: colors.c3
+                    }]
+                },
+                options: radarOptions
+            });
+
+            new Chart(document.getElementById('plaidJacketChart'), {
+                type: 'radar',
+                data: {
+                    labels: radarLabels,
+                    datasets: [{
+                        data: [3, 4, 5, 4, 2],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 145, 188, 0.3)',
+                        borderColor: colors.c2,
+                        pointBackgroundColor: colors.c2
+                    }]
+                },
+                options: radarOptions
+            });
+            
+            new Chart(document.getElementById('shirtJacketChart'), {
+                type: 'radar',
+                data: {
+                    labels: radarLabels,
+                    datasets: [{
+                        data: [5, 4, 1, 1, 5],
+                        fill: true,
+                        backgroundColor: 'rgba(131, 192, 228, 0.3)',
+                        borderColor: colors.c4,
+                        pointBackgroundColor: colors.c4
+                    }]
+                },
+                options: radarOptions
+            });
+        });
+    </script>
+
+</body>
+</html>
